@@ -1,4 +1,3 @@
-# from typing import Any, Optional
 from django.core.management.base import BaseCommand
 import pandas as pd
 from pathlib import Path
@@ -25,13 +24,17 @@ class Command(BaseCommand):
         self.stdout.write(f"file_name {file_name}")
         self.stdout.write(f"path {path}")
         if file_name == "store_status.csv":
+            df = df.sample(frac = 1)
             for i , row in df.iterrows():
+                # if StoreStatus.objects.filter(time_stamp_utc = row["timestamp_utc"] , store = row["store_id"]).exists():
+                #     continue 
                 try:
                     store_activity = StoreStatus(
                         store = TimeZone.objects.get(store_id = row["store_id"]),
                         status = row["status"],
                         time_stamp_utc = row["timestamp_utc"]
                     )
+                    self.stdout.write(f"status is {store_activity.status} ")
                     self.stdout.write(f"{store_activity.store}  added")
                     store_activity.save()
                 except TimeZone.DoesNotExist:
@@ -47,6 +50,7 @@ class Command(BaseCommand):
                         status = row["status"],
                         time_stamp_utc = row["timestamp_utc"]
                     )
+                    self.stdout.write(f"status is {store_activity.status} ")
                     self.stdout.write("this was not is timezone csv file so we added default timestap as america/chicago")
                     store_activity.save()
                     continue 
@@ -89,4 +93,4 @@ class Command(BaseCommand):
         else:
             self.stdout.write("invalid name check file name")
             return 
-
+        
