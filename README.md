@@ -5,4 +5,12 @@ To run it run command python manage.py importcsv [filename]
 
 Models with thier relations have also been added
 
-Logic for interpolation is here [not yet completed](api/views.py)
+Logic for interpolation is here [completed](api/trigger_functions.py)
+
+End points 
+-> trigger_report/<int:store_id>
+-> get_report/<str:report_id>
+
+
+
+
