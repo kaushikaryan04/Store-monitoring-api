@@ -1,4 +1,7 @@
 
+To understand the problem see this link -> https://loopxyz.notion.site/Take-home-interview-Store-Monitoring-12664a3c7fdf472883a41457f0c9347d
+
+
 
 Wrote a custom script that triggers via python manage.py that add csv files to python models as per requirnments specified in assignment [See here](api/management/commands/importcsv.py)  
 To run it run command python manage.py importcsv [filename]
