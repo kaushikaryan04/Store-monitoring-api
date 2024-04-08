@@ -49,8 +49,8 @@ atlassian-ide-plugin.xml
 store_status.csv
 timeZoneStores.csv
 Menu_hours.csv
-
-
+store_status.csv
+timezones.csv
 # Python # 
 *.py[cod] 
 *$py.class 

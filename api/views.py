@@ -3,6 +3,7 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 import pandas as pd
 from .trigger_functions import trigger , trigger_last_hour , trigger_last_week
+from django.db.models import Count
 
 @api_view(["GET"])
 def trigger_report(request , store_id):
@@ -47,3 +48,15 @@ def get_report(request , report_id):
         "uptime last week": uptime_week,
         "downtime last week" : downtime_week
     })
+
+@api_view(["GET"])
+def get_most_records_store_id(request):
+
+    most_records_store_id = StoreStatus.objects.values('store__store_id').annotate(total_records=Count('id')).order_by('-total_records').first()['store__store_id']
+
+    if most_records_store_id:
+        print(most_records_store_id)
+            # return row[0]
+        return Response({"store id ":most_records_store_id})
+    else:
+        return Response({"not ok":"not ok"})

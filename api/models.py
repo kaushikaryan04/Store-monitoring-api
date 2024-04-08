@@ -4,6 +4,9 @@ import uuid
 class TimeZone(models.Model):
     store_id = models.BigAutoField(primary_key=True)
     timezone = models.CharField(max_length=100)
+# query to get store_id with maximum no. of records in store_status
+# select store_id from timezone join storestatus on timezone.store_id = storestatus.store group by timezone.store_id order by count(store_status.id) desc limit 1 ;
+
 
 class MenuHours(models.Model):
     store = models.ForeignKey("TimeZone",on_delete =models.CASCADE)
@@ -21,7 +24,7 @@ class StoreStatus(models.Model):
     status = models.CharField(max_length=20 , choices=choices)
     time_stamp_utc = models.DateTimeField(auto_now = True)
     class Meta:
-        unique_together = ("store" ,"time_stamp_utc") 
+        unique_together = ("store" ,"time_stamp_utc")
     # datetime.datetime(2023, 7, 25, 21, 41, 41, 727209, tzinfo=datetime.timezone.utc)
     # datetime.datetime(year , month , date ,hour ,minute , second , microsecond)
 

@@ -5,7 +5,7 @@ from api.models import TimeZone , MenuHours , StoreStatus
 
 BASE_DIR = Path(__file__).resolve().parent.parent.parent.parent
 
-
+# First file to import is TimeZones
 class Command(BaseCommand):
     help = "This I will use to import the menu hours and other csv files "
 
@@ -20,14 +20,14 @@ class Command(BaseCommand):
             df = pd.read_csv(path)
         except FileNotFoundError:
             self.stdout.write("File name not correct ")
-            return 
+            return
         self.stdout.write(f"file_name {file_name}")
         self.stdout.write(f"path {path}")
         if file_name == "store_status.csv":
             df = df.sample(frac = 1)
             for i , row in df.iterrows():
                 # if StoreStatus.objects.filter(time_stamp_utc = row["timestamp_utc"] , store = row["store_id"]).exists():
-                #     continue 
+                #     continue
                 try:
                     store_activity = StoreStatus(
                         store = TimeZone.objects.get(store_id = row["store_id"]),
@@ -53,7 +53,7 @@ class Command(BaseCommand):
                     self.stdout.write(f"status is {store_activity.status} ")
                     self.stdout.write("this was not is timezone csv file so we added default timestap as america/chicago")
                     store_activity.save()
-                    continue 
+                    continue
         elif file_name == "Menu_hours.csv":
             for i , row in df.iterrows():
                 try :
@@ -82,7 +82,7 @@ class Command(BaseCommand):
                     self.stdout.write("this was not is timezone csv file so we added default timestap as america/chicago")
                     menu_hours.save()
                     continue
-        elif file_name == "timeZoneStores.csv":
+        elif file_name == "timezones.csv":
             for i , row in df.iterrows():
                 timeZone = TimeZone(
                     store_id = row["store_id"],
@@ -92,5 +92,4 @@ class Command(BaseCommand):
                 timeZone.save()
         else:
             self.stdout.write("invalid name check file name")
-            return 
-        
+            return
